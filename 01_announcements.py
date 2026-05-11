@@ -33,7 +33,8 @@ def cninfo_detail_to_pdf(url: str) -> str:
         ann_id = params.get("announcementId", [None])[0]
         ann_time = params.get("announcementTime", [None])[0]
         if ann_id and ann_time:
-            return f"http://static.cninfo.com.cn/finalpage/{ann_time}/{ann_id}.PDF"
+            ann_date = ann_time[:10]  # "2026-05-09 00:00:00" → "2026-05-09"
+            return f"http://static.cninfo.com.cn/finalpage/{ann_date}/{ann_id}.PDF"
     except Exception:
         pass
     return url
