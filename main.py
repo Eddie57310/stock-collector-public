@@ -10,9 +10,9 @@ def main():
     parser = argparse.ArgumentParser(description="A股研究资料采集工具")
     parser.add_argument(
         "--module", "-m",
-        choices=["all", "ann", "fin", "news"],
+        choices=["all", "ann", "fin", "news", "ir"],
         default="all",
-        help="采集模块: all=全部 ann=公告PDF fin=财务数据 news=新闻"
+        help="采集模块: all=全部 ann=公告PDF fin=财务数据 news=新闻 ir=投资者关系活动"
     )
     args = parser.parse_args()
 
@@ -20,6 +20,7 @@ def main():
     Path("./output/pdfs").mkdir(parents=True, exist_ok=True)
     Path("./output/financials").mkdir(parents=True, exist_ok=True)
     Path("./output/news").mkdir(parents=True, exist_ok=True)
+    Path("./output/ir").mkdir(parents=True, exist_ok=True)
 
     if args.module in ("all", "ann"):
         print("\n" + "="*60)
@@ -45,6 +46,14 @@ def main():
         import03 = importlib.import_module("03_news")
         import03.run()
 
+    if args.module in ("all", "ir"):
+        print("\n" + "="*60)
+        print("🤝 模块4: 投资者关系活动采集")
+        print("="*60)
+        import importlib
+        import04 = importlib.import_module("04_ir_activities")
+        import04.run()
+
     print("\n" + "="*60)
     print("🎉 全部完成！输出目录结构：")
     for p in sorted(Path("./output").rglob("*")):
@@ -58,7 +67,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--module", "-m",
-                        choices=["all", "ann", "fin", "news"], default="all")
+                        choices=["all", "ann", "fin", "news", "ir"], default="all")
     args = parser.parse_args()
 
     Path("./output/pdfs").mkdir(parents=True, exist_ok=True)
@@ -76,5 +85,9 @@ if __name__ == "__main__":
     if args.module in ("all", "news"):
         print("\n📰 模块3: 新闻资讯采集")
         runpy.run_path("03_news.py", run_name="__main__")
+
+    if args.module in ("all", "ir"):
+        print("\n🤝 模块4: 投资者关系活动采集")
+        runpy.run_path("04_ir_activities.py", run_name="__main__")
 
     print("\n✅ 全部完成！")
