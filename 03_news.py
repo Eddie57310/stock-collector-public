@@ -115,9 +115,7 @@ def run():
         print(f"  获取到 {len(news)} 条资讯")
 
         out_file = base / f"{code}_{name}_资讯.md"
-        if out_file.exists():
-            print(f"  [跳过] 已存在: {out_file.name}")
-        elif news:
+        if news:
             md = news_to_markdown(stock, news)
             out_file.write_text(md, encoding="utf-8")
             print(f"  ✅ 已保存: {out_file.name}")
